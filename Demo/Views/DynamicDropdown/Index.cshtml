@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Index";
+    //global Data
+    List<SelectListItem> drpListGlobal = new List<SelectListItem>();
+    drpListGlobal.Add(new SelectListItem { Text = "---Please Select---", Value = "0" });
+    drpListGlobal.Add(new SelectListItem { Text = "Faisal", Value = "1" });
+    drpListGlobal.Add(new SelectListItem { Text = "Irshad", Value = "1" });
+    drpListGlobal.Add(new SelectListItem { Text = "Kaushik", Value = "1" });
+    drpListGlobal.Add(new SelectListItem { Text = "Jaimin", Value = "1" });
+    drpListGlobal.Add(new SelectListItem { Text = "Kirti", Value = "1" });
+}
+<h2>Using Viewbag</h2>
+@Html.DropDownList("Names", (IEnumerable<SelectListItem>)ViewBag.DrpListViewBag, "---Please Select---")
+<hr />
+<h2>Using ViewData</h2>
+@Html.DropDownList("Names", (IEnumerable<SelectListItem>)ViewData["Names"], "---Please Select---")
+<hr />
+<h2>Using TempData</h2>
+@Html.DropDownList("Names", (IEnumerable<SelectListItem>)TempData["Names"], "---Please Select---")
+<hr />
+<h2>Using Global data</h2>
+@Html.DropDownList("Names", drpListGlobal)
+<hr />
+<h2>Using jQuery</h2>
+<select id="drpList"></select>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/DynamicDropdown/GetListData',
+            method: 'GET',
+            success: function (res) {
+                debugger;
+                var html = '';
+                $.each(res, function (index, item) {
+                    html += '<option>' + item.Name + '</option>'
+                });
+                $('#drpList').html(html);
+            },
+            error: function (err) {
+                alert(err);
+            }
+        });
+    });
+</script>
